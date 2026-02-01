@@ -75,6 +75,7 @@ class MokioMindConfig(PretrainedConfig):
 import torch
 import torch.nn as nn
 
+class RMSNorm(nn.Module):
     def __init__(self, dim: int, eps: float = 1e-5):
         super().__init__()
         self.dim = dim
