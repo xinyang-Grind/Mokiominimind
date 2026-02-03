@@ -87,7 +87,7 @@ class RMSNorm(nn.Module):
 
     #keepdim，即保留张量的维度，因为取平均值后肯定是降维的，但是keepdim=True可以使得输出张量的维度与输入张量保持一致
     def _norm(self, x):
-        return torch.rsqrt(x.pow(2).mean(-1, keepDim=True) + self.eps)*x
+        return torch.rsqrt(x.pow(2).mean(-1, keepDim=True) + self.eps)
 
     def forward(self, x):
-        return self.weight * self._norm(x.float()).typed_as(x)
+        return self.weight * self._norm(x.float()).typed_as(x)*x
