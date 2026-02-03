@@ -75,6 +75,8 @@ class MokioMindConfig(PretrainedConfig):
 import torch
 import torch.nn as nn
 
+
+#RmNorm
 class RMSNorm(nn.Module):
     def __init__(self, dim: int, eps: float = 1e-5):
         super().__init__()
@@ -82,8 +84,10 @@ class RMSNorm(nn.Module):
         self.eps = eps
         self.weight = nn.Parameter(torch.ones(dim))
     
+
+    #keepdim，即保留张量的维度，因为取平均值后肯定是降维的，但是keepdim=True可以使得输出张量的维度与输入张量保持一致
     def _norm(self, x):
-        return torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps)
+        return torch.rsqrt(x.pow(2).mean(-1, keepDim=True) + self.eps)*x
 
     def forward(self, x):
-        return self.weight * self._norm(x.float()).typed_as(x)*x
+        return self.weight * self._norm(x.float()).typed_as(x)
